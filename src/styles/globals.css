@@ -1,0 +1,96 @@
+@import "tailwindcss" important;
+
+/*
+ * Color scale convention: 100 = darkest, 900 = lightest (inverted vs default Tailwind).
+ * Semantic tokens (surface, foreground, success, etc.) are preferred for new UI code.
+ */
+
+@theme {
+    /* Primary Colors - Coral/Orange/Red tones */
+    --color-primary-100: #953422;
+    --color-primary-200: #ae3d27;
+    --color-primary-300: #c7462d;
+    --color-primary-400: #e04e32;
+    --color-primary-500: #f95738;
+    --color-primary-600: #fa684c;
+    --color-primary-700: #fa7960;
+    --color-primary-800: #fb8974;
+    --color-primary-900: #fcab9c;
+
+    /* Primary semantic  */
+    --color-primary: #f95738;
+    --color-primary-light: #fcab9c;
+    --color-primary-dark: #953422;
+    --color-primary-50: #fef2f0;
+
+    /* Secondary Colors - Yellow/Gold tones */
+    --color-secondary-100: #997923;
+    --color-secondary-200: #b38d29;
+    --color-secondary-300: #cca22e;
+    --color-secondary-400: #e6b634;
+    --color-secondary-500: #ffca3a;
+    --color-secondary-600: #ffcf4e;
+    --color-secondary-700: #ffd561;
+    --color-secondary-800: #ffda75;
+    --color-secondary-900: #ffdf89;
+
+    /* Secondary semantic  */
+    --color-secondary: #ffca3a;
+    --color-secondary-light: #ffdf89;
+    --color-secondary-dark: #997923;
+
+    /* Custom Black Colors - Black/Gray tones */
+    --color-custom-black-100: #000000;
+    --color-custom-black-200: #1a1a1a;
+    --color-custom-black-300: #333333;
+    --color-custom-black-400: #4d4d4d;
+    --color-custom-black-500: #666666;
+    --color-custom-black-600: #808080;
+    --color-custom-black-700: #999999;
+    --color-custom-black-800: #b3b3b3;
+    --color-custom-black-900: #cccccc;
+
+    /* Custom Black semantic  */
+    --color-custom-black: #000000;
+    --color-custom-black-light: #666666;
+
+    /* White Colors - White to Gray tones */
+    --color-white-100: #a9a9aa;
+    --color-white-200: #c2c2c2;
+    --color-white-300: #dadadb;
+    --color-white-400: #f2f2f3;
+    --color-white-500: #f6f6f7;
+    --color-white-600: #f9f9f9;
+    --color-white-700: #fbfbfc;
+    --color-white-800: #fefefe;
+    --color-white-900: #ffffff;
+
+    /* White semantic  */
+    --color-custom-gray: #a9a9aa;
+    --color-custom-gray-light: #dadadb;
+
+    /* Semantic tokens */
+    --color-surface: var(--color-white-900);
+    --color-surface-muted: var(--color-white-500);
+    --color-border: var(--color-white-300);
+    --color-foreground: var(--color-custom-black-200);
+    --color-muted-foreground: var(--color-custom-black-500);
+
+    --color-success: #2e7d32;
+    --color-success-subtle: #e8f5e9;
+    --color-warning: var(--color-secondary-500);
+    --color-warning-subtle: var(--color-secondary-900);
+    --color-error: #c62828;
+    --color-error-subtle: #ffebee;
+    --color-info: #1565c0;
+    --color-info-subtle: #e3f2fd;
+}
+
+body {
+    background-color: var(--color-white-500) !important;
+}
+
+button {
+    cursor: pointer !important;
+    transition: background-color 0.3s ease
+}
