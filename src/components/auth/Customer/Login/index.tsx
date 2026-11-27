@@ -24,9 +24,10 @@ const CustomerLoginForm: React.FC<CustomerLoginFormProps> = ({ business_slug }) 
     const { businessInfo, loading, error } = useCustomerBusinessInfo(business_slug);
     const router = useRouter();
     const isSubmitting = customerFlowLoading || authLoading;
+    const demo = isDemoMode(business_slug);
 
     const [customerData, setCustomerData] = useState<CustomerLoginCredentials>({
-        email: isDemoMode ? DEMO_CUSTOMER_EMAIL : '',
+        email: demo ? DEMO_CUSTOMER_EMAIL : '',
         url: business_slug,
         confirmation_code: '',
     });
@@ -44,14 +45,14 @@ const CustomerLoginForm: React.FC<CustomerLoginFormProps> = ({ business_slug }) 
         if (ok) {
             toast.success('Código de confirmação enviado para o e-mail');
             setIsCodeStep(true);
-            if (isDemoMode) {
+            if (demo) {
                 setCustomerData((prev) => ({
                     ...prev,
                     confirmation_code: DEMO_CONFIRMATION_CODE,
                 }));
             }
         }
-    }, [customerData.url, customerData.email, requestConfirmationCode]);
+    }, [customerData.url, customerData.email, requestConfirmationCode, demo]);
 
     const handleBackToEmailStep = useCallback(() => {
         setIsCodeStep(false);
@@ -79,7 +80,7 @@ const CustomerLoginForm: React.FC<CustomerLoginFormProps> = ({ business_slug }) 
     const renderDemoBanner = () => {
         if (!isCodeStep) {
             return (
-                <DemoModeBanner>
+                <DemoModeBanner businessSlug={business_slug}>
                     <p className="mt-1">
                         Email: <span className="font-mono">{DEMO_CUSTOMER_EMAIL}</span>
                     </p>
@@ -92,7 +93,7 @@ const CustomerLoginForm: React.FC<CustomerLoginFormProps> = ({ business_slug }) 
         }
 
         return (
-            <DemoModeBanner>
+            <DemoModeBanner businessSlug={business_slug}>
                 <p className="mt-1">
                     Email: <span className="font-mono">{DEMO_CUSTOMER_EMAIL}</span>
                 </p>

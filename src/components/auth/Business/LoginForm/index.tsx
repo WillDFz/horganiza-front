@@ -10,8 +10,9 @@ import DemoModeBanner, { isDemoMode } from '@/components/auth/DemoModeBanner';
 const LoginForm = () => {
 
     const { login, loading } = useAuth();
-    const [email, setEmail] = useState(isDemoMode ? DEMO_EMAIL : '');
-    const [password, setPassword] = useState(isDemoMode ? DEMO_PASSWORD : '');
+    const demo = isDemoMode();
+    const [email, setEmail] = useState(demo ? DEMO_EMAIL : '');
+    const [password, setPassword] = useState(demo ? DEMO_PASSWORD : '');
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const router = useRouter();
 

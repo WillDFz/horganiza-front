@@ -1,13 +1,15 @@
 'use client';
 
-import { CircularProgress, TextField } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import { CircularProgress, TextField } from '@mui/material';
+import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CustomerRegisterInfo } from '@/types/api/auth.types';
 import { useAuth } from '@/contexts/auth-context';
 import CustomerAuthCard from '../CustomerAuthCard';
 import CustomerAuthFormShell from '../CustomerAuthFormShell';
 import { useCustomerBusinessInfo } from '../useCustomerBusinessInfo';
+import DemoModeBanner, { isDemoMode } from '@/components/auth/DemoModeBanner';
+import { DEMO_CUSTOMER_EMAIL } from '@/mocks/constants';
 
 interface CustomerRegisterFormProps {
     business_slug: string;
@@ -17,8 +19,9 @@ const CustomerRegisterForm: React.FC<CustomerRegisterFormProps> = ({ business_sl
     const { customerRegister, loading: loadingCustomer } = useAuth();
     const { businessInfo, loading, error } = useCustomerBusinessInfo(business_slug);
     const router = useRouter();
+    const demo = isDemoMode(business_slug);
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(demo ? DEMO_CUSTOMER_EMAIL : '');
 
     const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -53,6 +56,15 @@ const CustomerRegisterForm: React.FC<CustomerRegisterFormProps> = ({ business_sl
                     label: 'Já tem uma conta? Entre',
                 }}
             >
+                <DemoModeBanner businessSlug={business_slug}>
+                    <p className="mt-1">
+                        Email: <span className="font-mono">{DEMO_CUSTOMER_EMAIL}</span>
+                    </p>
+                    <p className="mt-1 text-teal-800/80">
+                        Após cadastrar, no login use o mesmo e-mail e o código{' '}
+                        <span className="font-mono">123456</span>.
+                    </p>
+                </DemoModeBanner>
                 <TextField
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

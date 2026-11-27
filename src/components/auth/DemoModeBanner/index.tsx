@@ -1,15 +1,27 @@
 'use client';
 
 import React from 'react';
+import { DEMO_BUSINESS_SLUG } from '@/mocks/constants';
 
-const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+const envDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
+export function isDemoMode(businessSlug?: string): boolean {
+  if (envDemoMode) {
+    return true;
+  }
+  if (businessSlug && businessSlug === DEMO_BUSINESS_SLUG) {
+    return true;
+  }
+  return false;
+}
 
 interface DemoModeBannerProps {
   children: React.ReactNode;
+  businessSlug?: string;
 }
 
-const DemoModeBanner = ({ children }: DemoModeBannerProps) => {
-  if (!isDemoMode) {
+const DemoModeBanner = ({ children, businessSlug }: DemoModeBannerProps) => {
+  if (!isDemoMode(businessSlug)) {
     return null;
   }
 
@@ -25,4 +37,3 @@ const DemoModeBanner = ({ children }: DemoModeBannerProps) => {
 };
 
 export default DemoModeBanner;
-export { isDemoMode };
