@@ -106,6 +106,23 @@ Na **demo deste repositório**, sem `API_BACKEND_URL`, as rotas `/api/*` são at
 
 Tema claro, laranja como cor primária do produto, tipografia Roboto, layout com sidebar no painel e páginas de auth em full-bleed. A metáfora é um **painel operacional** — limpo, legível, sem dashboard de vanity metrics.
 
+## Rodar localmente
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Em `.env.local`, para a demo com mocks (sem backend):
+
+```env
+NEXT_PUBLIC_API_URL=/api
+NEXT_PUBLIC_DEMO_MODE=true
+```
+
+Não defina `API_BACKEND_URL` nesse modo. Abra [http://localhost:3000](http://localhost:3000).
+
 ## Este repositório
 
 Frontend público em modo demo: código Next.js com API mockada e capturas. O backend de produção **não** está aqui.
