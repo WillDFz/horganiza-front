@@ -242,6 +242,12 @@ export function deleteAppointment(id: string): void {
   store.appointments = store.appointments.filter((appointment) => appointment.id !== id);
 }
 
+/** Match production API shape: wall-clock HH:mm embedded in an ISO string (UTC Z). */
+function toSlotIso(dateYyyyMmDd: string, hhmm: string): string {
+  const normalized = hhmm.length === 5 ? hhmm : hhmm.padStart(5, '0');
+  return `${dateYyyyMmDd}T${normalized}:00.000Z`;
+}
+
 export function getAvailableSlots(
   staffId: string,
   date: string,
@@ -250,7 +256,8 @@ export function getAvailableSlots(
   const member = getStaffById(staffId);
   if (!member) return [];
 
-  const day = new Date(`${date}T12:00:00`);
+  const dayPrefix = date.slice(0, 10);
+  const day = new Date(`${dayPrefix}T12:00:00`);
   if (Number.isNaN(day.getTime())) return [];
 
   const { slotStarts, isDayActive } = getDayScheduleSlots(member.staffMemberWeekDaySchedule, day, {
@@ -260,7 +267,6 @@ export function getAvailableSlots(
 
   if (!isDayActive) return [];
 
-  const dayPrefix = date.slice(0, 10);
   const busyStarts = new Set(
     getStore()
       .appointments.filter((appointment) => {
@@ -268,7 +274,10 @@ export function getAvailableSlots(
         if (appointment.status === 'CANCELLED') return false;
         const schedule = new Date(appointment.schedule_time);
         if (Number.isNaN(schedule.getTime())) return false;
-        return schedule.toISOString().slice(0, 10) === dayPrefix;
+        const localY = schedule.getFullYear();
+        const localM = String(schedule.getMonth() + 1).padStart(2, '0');
+        const localD = String(schedule.getDate()).padStart(2, '0');
+        return `${localY}-${localM}-${localD}` === dayPrefix;
       })
       .map((appointment) => {
         const schedule = new Date(appointment.schedule_time);
@@ -283,9 +292,11 @@ export function getAvailableSlots(
       const endTotal = hours * 60 + minutes + durationMinutes;
       const endHours = Math.floor(endTotal / 60);
       const endMinutes = endTotal % 60;
+      const end = `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+      // Frontend expects ISO datetimes (same shape as the real API), not bare HH:mm.
       return {
-        init: start,
-        end: `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`,
+        init: toSlotIso(dayPrefix, start),
+        end: toSlotIso(dayPrefix, end),
       };
     });
 }
