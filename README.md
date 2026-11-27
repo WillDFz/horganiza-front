@@ -6,15 +6,28 @@ Stack: **Next.js (App Router)**, **React**, **TypeScript**, **Tailwind CSS**, **
 
 ## Demo pública
 
-Esta publicação roda em **modo demo**: a API real não é necessária. Os dados são fictícios (Estúdio Aurora) e vivem em memória no processo serverless.
+Esta publicação pode rodar em **modo demo**: a API real não é necessária. Os dados são fictícios (Estúdio Aurora) e vivem em memória no processo serverless.
 
 | | |
 | --- | --- |
 | Login | `demo@horganiza.app` / `demo1234` |
 | Página pública | `/business/estudio-aurora` |
-| Deploy | _(URL da Vercel após o primeiro deploy)_ |
+| Repo | [WillDFz/horganiza-front](https://github.com/WillDFz/horganiza-front) |
 
 Escrita (criar/editar/cancelar) funciona na sessão atual; um cold start da Vercel volta à semente. Não há persistência entre instâncias.
+
+### Deploy na Vercel (manual)
+
+1. Importe o repositório `WillDFz/horganiza-front`.
+2. Defina as variáveis de ambiente (Production e Preview):
+
+```env
+NEXT_PUBLIC_API_URL=/api
+NEXT_PUBLIC_DEMO_MODE=true
+```
+
+3. **Não** defina `API_BACKEND_URL` — sem ela, o catch-all mock atende `/api/*`.
+4. Deploy. Credenciais e link da página pública ficam no banner do `/auth/login`.
 
 ## Desenvolvimento local (API real)
 
@@ -57,4 +70,4 @@ npm run build
 ## Observações
 
 - `.env.local` e secrets reais **não** entram no repositório.
-- Repositório público desta demo: [WillDFz/horganiza-front](https://github.com/WillDFz/horganiza-front).
+- Pasta `docs/` é local/interna e está no `.gitignore`.
