@@ -1,73 +1,114 @@
-# Horganiza (frontend)
+# Horganiza
 
-Painel e fluxo de agendamento para negócios de serviço — dashboard do estabelecimento, equipe, serviços, clientes e página pública de booking.
+**Painel de agendamentos** para negócios de serviço.
 
-Stack: **Next.js (App Router)**, **React**, **TypeScript**, **Tailwind CSS**, **MUI**, **Axios**, **Jest** + Testing Library.
+O estabelecimento gerencia equipe, serviços, clientes e a agenda num único lugar. O cliente agenda pela página pública do negócio — sem app separado, sem planilha.
 
-## Demo pública
+<p align="center">
+  <strong>demo</strong>
+  &nbsp;·&nbsp; frontend público
+</p>
 
-Esta publicação pode rodar em **modo demo**: a API real não é necessária. Os dados são fictícios (Estúdio Aurora) e vivem em memória no processo serverless.
+> Esta publicação é uma **demo** com dados fictícios (Estúdio Aurora). Não é o ambiente de produção.
 
-| | |
+<p align="center">
+  <img src="assets/02-dashboard.png" alt="Painel do Horganiza — atalhos e próximos agendamentos" width="100%" />
+</p>
+
+## O que é
+
+Negócios de serviço perdem tempo em WhatsApp, planilha e calendário solto. O Horganiza concentra a operação do dia a dia e entrega uma vitrine de booking para o cliente final.
+
+| É | Não é |
 | --- | --- |
-| Login | `demo@horganiza.app` / `demo1234` |
-| Página pública | `/business/estudio-aurora` |
-| Repo | [WillDFz/horganiza-front](https://github.com/WillDFz/horganiza-front) |
+| Painel do estabelecimento | Marketplace multi-loja |
+| Agenda, serviços, equipe e clientes | ERP financeiro completo |
+| Página pública de agendamento por negócio | Rede social |
+| Demo frontend com dados mockados | Backend de produção neste repositório |
 
-Escrita (criar/editar/cancelar) funciona na sessão atual; um cold start da Vercel volta à semente. Não há persistência entre instâncias.
+<br />
 
-### Deploy na Vercel (manual)
+<table width="100%">
+  <tr>
+    <td width="48%" valign="top">
+      <img src="assets/03-appointments.png" alt="Calendário de agendamentos" width="100%" />
+    </td>
+    <td width="4%"></td>
+    <td width="48%" valign="top">
+      <img src="assets/04-services.png" alt="Lista de serviços do negócio" width="100%" />
+    </td>
+  </tr>
+</table>
 
-1. Importe o repositório `WillDFz/horganiza-front`.
-2. Defina as variáveis de ambiente (Production e Preview):
+<br />
 
-```env
-NEXT_PUBLIC_API_URL=/api
-NEXT_PUBLIC_DEMO_MODE=true
+<table width="100%">
+  <tr>
+    <td width="48%" valign="top">
+      <img src="assets/06-staff.png" alt="Lista de atendentes" width="100%" />
+    </td>
+    <td width="4%"></td>
+    <td width="48%" valign="top">
+      <img src="assets/01-login.png" alt="Login do painel em modo demo" width="100%" />
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="assets/05-booking-public.png" alt="Página pública do negócio — acesso do cliente" width="360" />
+</p>
+
+## O que já dá para usar na demo
+
+- **Painel** — atalhos e próximos agendamentos
+- **Agendamentos** — calendário mensal com status (agendado, confirmado, concluído, cancelado)
+- **Serviços** — cadastro, preço, duração e promoção
+- **Atendentes** — equipe e vínculos ao negócio
+- **Clientes** — lista de clientes do estabelecimento
+- **Meu Negócio** — identidade visual e dados de contato
+- **Página pública** — `/business/estudio-aurora` (fluxo de autenticação do cliente)
+
+## Escopo desta demo
+
+O que **não** faz parte deste ciclo público:
+
+- Backend e banco de produção
+- Persistência real entre cold starts (o mock vive em memória)
+- Pagamentos, mensageria ou notificações
+- Multi-tenant completo além do negócio seed
+
+Estados vazios e credenciais de demo ficam explícitos na interface.
+
+## Como o dado flui (produto)
+
+```text
+Cliente / painel
+        ↓
+   Next.js (UI)
+        ↓
+   API REST
+        ↓
+  PostgreSQL
 ```
 
-3. **Não** defina `API_BACKEND_URL` — sem ela, o catch-all mock atende `/api/*`.
-4. Deploy. Credenciais e link da página pública ficam no banner do `/auth/login`.
+Na **demo deste repositório**, sem `API_BACKEND_URL`, as rotas `/api/*` são atendidas por handlers mock na própria app (`src/mocks` + `src/app/api`). Com `API_BACKEND_URL`, o rewrite aponta para a API real.
 
-## Desenvolvimento local (API real)
+## Stack
 
-```bash
-cp .env.example .env.local
-# ajuste API_BACKEND_URL para o backend
-npm install
-npm run dev
-```
+| Camada | Tecnologia |
+| --- | --- |
+| Interface | Next.js (App Router), React, TypeScript, Tailwind CSS, Material UI |
+| Calendário | FullCalendar |
+| HTTP | Axios |
+| Qualidade | ESLint, TypeScript estrito, Jest + Testing Library |
 
-Com `API_BACKEND_URL` definido, o Next faz rewrite de `/api/*` para o backend (`beforeFiles`). Os handlers mock **não** respondem nesse caso.
+## Design
 
-## Desenvolvimento / preview sem backend
+Tema claro, laranja como cor primária do produto, tipografia Roboto, layout com sidebar no painel e páginas de auth em full-bleed. A metáfora é um **painel operacional** — limpo, legível, sem dashboard de vanity metrics.
 
-Remova ou comente `API_BACKEND_URL` e use:
+## Este repositório
 
-```env
-NEXT_PUBLIC_API_URL=/api
-NEXT_PUBLIC_DEMO_MODE=true
-```
+Frontend público em modo demo: código Next.js com API mockada e capturas. O backend de produção **não** está aqui.
 
-O catch-all em `src/app/api/[[...path]]` atende auth, business, staff, services, customers, appointments e upload.
-
-## Scripts
-
-```bash
-npm run lint
-npm run typecheck
-npm test
-npm run build
-```
-
-## Estrutura relevante
-
-- `src/app` — rotas (dashboard, auth, booking público)
-- `src/services` — clientes HTTP (contratos iguais em prod e demo)
-- `src/mocks` — semente, store em memória e handlers do modo demo
-- `src/components` — UI e features
-
-## Observações
-
-- `.env.local` e secrets reais **não** entram no repositório.
-- Pasta `docs/` é local/interna e está no `.gitignore`.
+**Login demo:** `demo@horganiza.app` / `demo1234`  
+**Página pública:** `/business/estudio-aurora`
