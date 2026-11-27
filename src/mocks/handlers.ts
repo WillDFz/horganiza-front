@@ -6,6 +6,8 @@ import type { CreateService, UpdateService } from '@/types/api/services.types';
 import type { CreateStaffMember, StaffMember, Weekday } from '@/types/api/staff.types';
 import {
   CUSTOMER_SESSION_ID,
+  DEMO_CONFIRMATION_CODE,
+  DEMO_CUSTOMER_EMAIL,
   DEMO_EMAIL,
   DEMO_PASSWORD,
   DEMO_SESSION_COOKIE,
@@ -140,10 +142,14 @@ export async function handleMockApi(
   }
 
   if (path === 'auth/request-code' && method === 'POST') {
-    return json({ success: true });
+    return json({ success: true, demo_code: DEMO_CONFIRMATION_CODE });
   }
 
   if (path === 'auth/verify-code' && method === 'POST') {
+    const body = await readBody<{ confirmation_code?: string; email?: string }>(request);
+    if (body?.confirmation_code && body.confirmation_code !== DEMO_CONFIRMATION_CODE) {
+      return error('Código de confirmação inválido', 401);
+    }
     await setSession('customer');
     return json({ success: true });
   }

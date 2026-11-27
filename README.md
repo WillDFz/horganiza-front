@@ -110,5 +110,6 @@ Tema claro, laranja como cor primária do produto, tipografia Roboto, layout com
 
 Frontend público em modo demo: código Next.js com API mockada e capturas. O backend de produção **não** está aqui.
 
-**Login demo:** `demo@horganiza.app` / `demo1234`  
+**Login do painel:** `demo@horganiza.app` / `demo1234`  
+**Login do cliente:** `cliente@demo.app` · código `123456`  
 **Página pública:** `/business/estudio-aurora`

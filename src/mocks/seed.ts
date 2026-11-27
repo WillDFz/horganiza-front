@@ -8,6 +8,7 @@ import {
   BUSINESS_ID,
   CUSTOMER_SESSION_ID,
   DEMO_BUSINESS_SLUG,
+  DEMO_CUSTOMER_EMAIL,
   DEMO_EMAIL,
   DEMO_PLACEHOLDER_IMAGE,
   OWNER_USER_ID,
@@ -75,7 +76,7 @@ export const seedLoginResponse: LoginResponse = {
 export const seedCustomerSession: CustomerSession = {
   id: CUSTOMER_SESSION_ID,
   name: 'Cliente Demo',
-  email: 'cliente@demo.app',
+  email: DEMO_CUSTOMER_EMAIL,
   phone: '(11) 97777-0000',
   role: 'CUSTOMER',
   business_id: BUSINESS_ID,
@@ -168,7 +169,7 @@ export const seedCustomers: Customer[] = [
   },
   {
     id: CUSTOMER_SESSION_ID,
-    email: 'cliente@demo.app',
+    email: DEMO_CUSTOMER_EMAIL,
     business_id: BUSINESS_ID,
     confirmed_email: true,
     created_at: stamp,

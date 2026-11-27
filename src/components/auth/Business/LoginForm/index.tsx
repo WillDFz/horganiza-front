@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { DEMO_BUSINESS_SLUG, DEMO_EMAIL, DEMO_PASSWORD } from '@/mocks/constants';
-
-const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+import DemoModeBanner, { isDemoMode } from '@/components/auth/DemoModeBanner';
 
 const LoginForm = () => {
 
@@ -36,26 +35,20 @@ const LoginForm = () => {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/logo.png" alt="Logo" className='w-40 object-contain' />
                 </div>
-                {isDemoMode ? (
-                    <div
-                        className="mb-4 rounded-md border border-teal-200 bg-teal-50 px-3 py-2 text-xs text-teal-900"
-                        data-testid="demo-credentials-banner"
-                    >
-                        <p className="font-semibold">Modo demo</p>
-                        <p className="mt-1">
-                            Email: <span className="font-mono">{DEMO_EMAIL}</span>
-                        </p>
-                        <p>
-                            Senha: <span className="font-mono">{DEMO_PASSWORD}</span>
-                        </p>
-                        <p className="mt-2">
-                            Página pública:{' '}
-                            <Link href={`/business/${DEMO_BUSINESS_SLUG}`} underline="hover">
-                                /business/{DEMO_BUSINESS_SLUG}
-                            </Link>
-                        </p>
-                    </div>
-                ) : null}
+                <DemoModeBanner>
+                    <p className="mt-1">
+                        Email: <span className="font-mono">{DEMO_EMAIL}</span>
+                    </p>
+                    <p>
+                        Senha: <span className="font-mono">{DEMO_PASSWORD}</span>
+                    </p>
+                    <p className="mt-2">
+                        Página pública:{' '}
+                        <Link href={`/business/${DEMO_BUSINESS_SLUG}`} underline="hover">
+                            /business/{DEMO_BUSINESS_SLUG}
+                        </Link>
+                    </p>
+                </DemoModeBanner>
                 <form className='flex flex-col gap-4 w-full' onSubmit={handleSubmit}>
 
                     <TextField

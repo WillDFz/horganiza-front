@@ -1,5 +1,7 @@
 export const DEMO_EMAIL = 'demo@horganiza.app';
 export const DEMO_PASSWORD = 'demo1234';
+export const DEMO_CUSTOMER_EMAIL = 'cliente@demo.app';
+export const DEMO_CONFIRMATION_CODE = '123456';
 export const DEMO_SESSION_COOKIE = 'horganiza_demo_session';
 export const DEMO_BUSINESS_SLUG = 'estudio-aurora';
 export const DEMO_PLACEHOLDER_IMAGE =
